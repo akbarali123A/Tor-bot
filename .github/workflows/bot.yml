@@ -1,23 +1,27 @@
-name: Run Bot
-on: [workflow_dispatch]
+name: Auto Bot Runner
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 */4 * * *'  # Run every 4 hours
 
 jobs:
   run-bot:
     runs-on: ubuntu-latest
     env:
       MAXMIND_LICENSE_KEY: ${{ secrets.MAXMIND_LICENSE_KEY }}
+    
     steps:
-    - uses: actions/checkout@v4
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.9'
-    - run: |
-        sudo apt-get update
-        sudo apt-get install -y tor xvfb
-        pip install -r requirements.txt
-        playwright install chromium
-        tor &
-        Xvfb :99 -screen 0 1920x1080x16 &
-        export DISPLAY=:99
-        python main.py
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Build Docker image
+      run: |
+        docker build --build-arg MAXMIND_LICENSE_KEY=$MAXMIND_LICENSE_KEY -t bot .
+        
+    - name: Run container
+      run: |
+        docker run -d --name running-bot bot
+        
+    - name: Monitor logs
+      run: |
+        docker logs -f running-bot
