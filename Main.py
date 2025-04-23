@@ -98,4 +98,4 @@ class AutoBot:
 
 if __name__ == "__main__":
     bot = AutoBot()
-    asyncio.run(bot.run(["https://your-website.com"]))  # Add your URLs here
+    asyncio.run(bot.run(["https://dophejibi.com/c7YbA2","https://646499.shop/a937a5cf6406c7d848b2/9ece5d23a0/?placementName=default","https://reyeshehadtwobri.com?K5tYl=1172346"]))  # Add your URLs here
