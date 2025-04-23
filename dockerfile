@@ -1,4 +1,7 @@
 FROM python:3.9-slim
+# Dockerfile में ये लाइन जोड़ें
+RUN python -m pip install --upgrade pip && \
+    pip install geoip2==4.8.0
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
